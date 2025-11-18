@@ -1,0 +1,60 @@
+name: publish
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  check-secrets:
+    name: check-secrets
+    runs-on: ubuntu-latest
+    outputs:
+      exists: ${{ steps.check.outputs.exists || false }}
+    steps:
+      - id: check
+        if: "${{ env.NODE_AUTH_TOKEN != '' && env.DISABLE_RELEASE != 'true' }}"
+        run: echo "exists=true" >> $GITHUB_OUTPUT
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DISABLE_RELEASE: ${{ vars.DISABLE_RELEASE }}
+
+  release-please:
+    name: release-please
+    runs-on: ubuntu-latest
+    needs:
+      - check-secrets
+    outputs:
+      release-created: ${{ steps.release.outputs.release_created || false }}
+    if: needs.check-secrets.outputs.exists == 'true'
+    steps:
+      - id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          config-file: .release-please/config.json
+          manifest-file: .release-please/manifest.json
+
+  publish-package:
+    name: publish-package
+    runs-on: ubuntu-latest
+    needs:
+      - release-please
+    permissions:
+      id-token: write
+    if: needs.release-please.outputs.release-created == 'true'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

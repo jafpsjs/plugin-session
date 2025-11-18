@@ -1,0 +1,49 @@
+{
+  "name": "@jafps/plugin-template",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "test": "node --enable-source-maps --experimental-test-coverage --test-coverage-exclude \"src/**/__tests__/*.ts\" --test \"./dist/**/__tests__/*.{spec,test}.js\"",
+    "lint": "eslint"
+  },
+  "author": "Joshua Avalon",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jafpsjs/plugin-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jafpsjs/plugin-template/issues"
+  },
+  "homepage": "https://github.com/jafpsjs/plugin-template#readme",
+  "imports": {},
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "keywords": [
+    "fastify",
+    "fastify-plugin"
+  ],
+  "files": [
+    "dist/**/*",
+    "!dist/**/__tests__/**/*"
+  ],
+  "devDependencies": {
+    "@joshuaavalon/eslint-config-typescript": "^10.0.0",
+    "@types/node": "^24.9.1",
+    "eslint": "^9.38.0",
+    "fastify": "^5.6.1",
+    "globals": "^16.4.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "fastify-plugin": "^5.1.0"
+  }
+}
