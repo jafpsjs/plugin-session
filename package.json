@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Fastify plugin for session.",
   "type": "module",
-  "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
