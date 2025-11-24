@@ -46,6 +46,32 @@ Type.Object({ b: Type.Optional(Type.String()) });
 
 Properties in JSON schema must be defined `default` or optional. Otherwise, the initial session will throw error.
 
+### Serialization
+
+By using `Type.Codec`, the session can be serialized and deserialized automatically.
+
+```ts
+declare module "fastify" {
+  interface FastifySessions {
+    session: { foo: Date };
+  }
+}
+
+await app.register(plugin, {
+  session: {
+    salt,
+    schema: Type.Object({
+      foo: Type.Codec(Type.Options(Type.String(), { format: "date-time" }))
+        .Decode((v) => new Date(v))
+        .Encode((v) => v.toISOString())
+    }),
+    secret: "a".repeat(32)
+  }
+});
+
+req.sessions.session.set(foo, new Date());
+```
+
 [typebox]: https://github.com/sinclairzx81/typebox
 [@fastify/secure-session]: https://github.com/fastify/fastify-secure-session
 [@fastify/cookie]: https://github.com/fastify/fastify-cookie
