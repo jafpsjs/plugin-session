@@ -1,4 +1,12 @@
 {
   "eslint.useFlatConfig": true,
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "cSpell.words": [
+    "KEYBYTES",
+    "MEMLIMIT",
+    "OPSLIMIT",
+    "pwhash",
+    "SALTBYTES",
+    "secretbox"
+  ]
 }

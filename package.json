@@ -1,7 +1,7 @@
 {
-  "name": "@jafps/plugin-template",
+  "name": "@jafps/plugin-session",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fastify plugin for session.",
   "type": "module",
   "private": true,
   "scripts": {
@@ -14,13 +14,26 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jafpsjs/plugin-template.git"
+    "url": "git+https://github.com/jafpsjs/plugin-session.git"
   },
   "bugs": {
-    "url": "https://github.com/jafpsjs/plugin-template/issues"
+    "url": "https://github.com/jafpsjs/plugin-session/issues"
   },
-  "homepage": "https://github.com/jafpsjs/plugin-template#readme",
-  "imports": {},
+  "homepage": "https://github.com/jafpsjs/plugin-session#readme",
+  "imports": {
+    "#func": {
+      "import": "./dist/func/index.js"
+    },
+    "#hook": {
+      "import": "./dist/hook/index.js"
+    },
+    "#session": {
+      "import": "./dist/session.js"
+    },
+    "#symbol": {
+      "import": "./dist/symbol.js"
+    }
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js"
@@ -35,15 +48,25 @@
     "!dist/**/__tests__/**/*"
   ],
   "devDependencies": {
+    "@fastify/cookie": "^11.0.2",
     "@joshuaavalon/eslint-config-typescript": "^10.0.0",
+    "@types/luxon": "^3.7.1",
     "@types/node": "^24.9.1",
+    "@types/set-cookie-parser": "^2.4.10",
+    "@types/sodium-native": "^2.3.9",
     "eslint": "^9.38.0",
     "fastify": "^5.6.1",
     "globals": "^16.4.0",
     "rimraf": "^6.0.1",
+    "set-cookie-parser": "^2.7.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "fastify-plugin": "^5.1.0"
+    "@jafps/plugin-schema": "^1.1.0",
+    "fastify-plugin": "^5.1.0",
+    "luxon": "^3.7.2",
+    "sodium-native": "^5.0.10",
+    "ts-extras": "0.16.0",
+    "typebox": "^1.0.53"
   }
 }
