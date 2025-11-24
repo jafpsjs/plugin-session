@@ -30,7 +30,7 @@ export class SchemaController {
       this.app.log.debug({ input, schema, useDefault: this.useDefault, value }, "Validate request");
       try {
         if (!compiledSchema.Check(value)) {
-          throw new Error("Invalid values");
+          throw new Error(`Invalid values: ${JSON.stringify(value, null, 2)}: ${JSON.stringify(input, null, 2)}: ${JSON.stringify(compiledSchema, null, 2)}`);
         }
         return { value: compiledSchema.Clean(compiledSchema.Decode(value)) as StaticDecode<T> };
       } catch (_e) {

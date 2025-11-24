@@ -110,7 +110,6 @@ describe("decodeSession", () => {
     const cipher = Buffer.allocUnsafe(msg.length + sodium.crypto_secretbox_MACBYTES);
     assert.ok(app[sessionOptionsSymbol].session.keys[0]);
     sodium.crypto_secretbox_easy(cipher, msg, nonce, app[sessionOptionsSymbol].session.keys[0]);
-    console.log("!!!");
     const session2 = decodeSession(app, "session", `${cipher.toString("base64")};${nonce.toString("base64")}`);
     const data = session2.data();
     assert.equal(data.a, 0);

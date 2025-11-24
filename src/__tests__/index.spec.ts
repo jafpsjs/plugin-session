@@ -41,7 +41,11 @@ describe("@jafps/plugin-session", () => {
       },
       session2: {
         salt,
-        schema: Type.Object({ b: Type.Options(Type.String(), { default: "a" }) }),
+        schema: Type.Object({
+          b: Type.Codec(Type.Options(Type.String(), { default: "a", pattern: /.+$/u }))
+            .Decode(v => `${v}!`)
+            .Encode(v => v.slice(0, -1))
+        }),
         secret: "a".repeat(32)
       }
     });
@@ -61,6 +65,14 @@ describe("@jafps/plugin-session", () => {
       req.sessions.session.delete();
       return res.send({ data: {}, success: true });
     });
+    app.post("/session2", { }, async (req, res) => {
+      req.sessions.session2.set("b", "b!");
+      return res.send({ data: {}, success: true });
+    });
+    app.get("/session2", { }, async (req, res) => {
+      const data = req.sessions.session2.data();
+      return res.send({ data, success: true });
+    });
   });
 
   it("should return default session", async () => {
@@ -74,7 +86,7 @@ describe("@jafps/plugin-session", () => {
     assert.equal(json.data.a, 0);
   });
 
-  it("should return default session", async () => {
+  it("should return session", async () => {
     const res = await app.inject({
       method: "post",
       path: "/session"
@@ -118,5 +130,38 @@ describe("@jafps/plugin-session", () => {
     assert.ok(cookieHeader);
     const cookies = setCookie.parse(cookieHeader);
     assert.equal(cookies.find(c => c.name === "session")?.maxAge, 0);
+  });
+
+  it("should return default session with Type.Codec", async () => {
+    const res = await app.inject({
+      method: "get",
+      path: "/session2"
+    });
+    const json = await res.json();
+    assert.equal(res.statusCode, 200);
+    assert.equal(json.success, true);
+    assert.equal(json.data.b, "a!");
+  });
+
+  it("should return session with Type.Codec", async () => {
+    const res = await app.inject({
+      method: "post",
+      path: "/session2"
+    });
+    const json = await res.json();
+    assert.equal(res.statusCode, 200);
+    assert.equal(json.success, true);
+    const cookieHeader = res.headers["set-cookie"];
+    assert.ok(cookieHeader);
+    const cookies = setCookie.parse(cookieHeader);
+    const res2 = await app.inject({
+      headers: { cookie: cookies.map(cookie => libCookie.serialize(cookie.name, cookie.value)) },
+      method: "get",
+      path: "/session2"
+    });
+    const json2 = await res2.json();
+    assert.equal(res2.statusCode, 200);
+    assert.equal(json2.success, true);
+    assert.equal(json2.data.b, "b!");
   });
 });
