@@ -48,24 +48,30 @@
   ],
   "devDependencies": {
     "@fastify/cookie": "^11.0.2",
+    "@joshuaavalon/eslint-config-javascript": "^10.0.0",
     "@joshuaavalon/eslint-config-typescript": "^10.0.0",
     "@types/luxon": "^3.7.1",
     "@types/node": "^24.9.1",
     "@types/set-cookie-parser": "^2.4.10",
     "@types/sodium-native": "^2.3.9",
+    "cookie": "^1.1.1",
     "eslint": "^9.38.0",
     "fastify": "^5.6.1",
     "globals": "^16.4.0",
     "rimraf": "^6.0.1",
     "set-cookie-parser": "^2.7.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.0"
   },
   "dependencies": {
-    "@jafps/plugin-schema": "^1.1.0",
     "fastify-plugin": "^5.1.0",
     "luxon": "^3.7.2",
     "sodium-native": "^5.0.10",
     "ts-extras": "0.16.0",
+    "type-fest": "^5.2.0",
     "typebox": "^1.0.53"
+  },
+  "peerDependencies": {
+    "@jafps/plugin-schema": "^1.1.1"
   }
 }

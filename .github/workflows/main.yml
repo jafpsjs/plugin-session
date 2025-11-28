@@ -15,12 +15,16 @@ jobs:
           - latest
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v5
         with:
           check-latest: true
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run lint
+          cache: pnpm
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm run lint
 
   test:
     name: test
@@ -32,10 +36,14 @@ jobs:
           - latest
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v5
         with:
           check-latest: true
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test
+          cache: pnpm
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run test

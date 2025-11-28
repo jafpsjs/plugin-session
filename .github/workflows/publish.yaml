@@ -49,12 +49,16 @@ jobs:
     if: needs.release-please.outputs.release-created == 'true'
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v5
         with:
           node-version: lts/*
           registry-url: https://registry.npmjs.org
-      - run: npm ci
-      - run: npm run build
-      - run: npm publish --provenance --access public
+          cache: pnpm
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
