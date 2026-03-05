@@ -18,10 +18,9 @@ jobs:
       exists: ${{ steps.check.outputs.exists || false }}
     steps:
       - id: check
-        if: "${{ env.NODE_AUTH_TOKEN != '' && env.DISABLE_RELEASE != 'true' }}"
+        if: "${{ env.DISABLE_RELEASE != 'true' }}"
         run: echo "exists=true" >> $GITHUB_OUTPUT
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           DISABLE_RELEASE: ${{ vars.DISABLE_RELEASE }}
 
   release-please:
@@ -59,6 +58,4 @@ jobs:
           cache: pnpm
       - run: pnpm i --frozen-lockfile
       - run: pnpm run build
-      - run: pnpm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --provenance --access public
