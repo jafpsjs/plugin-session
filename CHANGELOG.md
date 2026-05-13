@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/jafpsjs/plugin-session/compare/v1.0.2...v1.0.3) (2026-05-13)
+
+
+### Bug Fixes
+
+* Update dependencies ([11bd889](https://github.com/jafpsjs/plugin-session/commit/11bd889cb35f8d9359c7fef07cba7fe83d821e3c))
+
 ## [1.0.2](https://github.com/jafpsjs/plugin-session/compare/v1.0.1...v1.0.2) (2026-03-05)
 
 
