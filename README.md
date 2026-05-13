@@ -1,5 +1,7 @@
 # @jafps/plugin-session
 
+[![NPM Version](https://img.shields.io/npm/v/%40jafps%2Fplugin-session)](https://www.npmjs.com/package/@jafps/plugin-session)
+
 Fastify plugin for session. Use [typebox] to ensure the session match the schema.  
 Inspired by [@fastify/secure-session].
 
