@@ -21,7 +21,7 @@ export function encodeSession<T extends keyof FastifySessions>(app: FastifyInsta
   }
 
   const nonce = genNonce();
-  const jsonString = app[sessionSchemaSymbol].serialize(schema)(session.data() as any, session.lastUpdated());
+  const jsonString = app[sessionSchemaSymbol].serialize(schema)(session.data(), session.lastUpdated());
   const msg = Buffer.from(jsonString);
 
   const cipher = Buffer.allocUnsafe(msg.length + sodium.crypto_secretbox_MACBYTES);
